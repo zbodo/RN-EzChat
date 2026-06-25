@@ -43,6 +43,17 @@ type Props = {
 
 const dataCache: Record<number, YearData | null> = {};
 
+function fetchWithTimeout(url: string, ms: number): Promise<Response> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  return fetch(url, {
+    headers: {'Cache-Control': 'no-cache'},
+    signal: controller.signal,
+  }).finally(() => clearTimeout(timer));
+}
+
+const FETCH_TIMEOUT_MS = 5000;
+
 async function fetchYearData(year: number): Promise<YearData | null> {
   if (dataCache[year] !== undefined) {
     return dataCache[year];
@@ -50,7 +61,7 @@ async function fetchYearData(year: number): Promise<YearData | null> {
   for (const mirror of MIRRORS) {
     try {
       const url = mirror.replace('{year}', String(year));
-      const resp = await fetch(url, {headers: {'Cache-Control': 'no-cache'}});
+      const resp = await fetchWithTimeout(url, FETCH_TIMEOUT_MS);
       if (!resp.ok) {
         continue;
       }
@@ -60,7 +71,7 @@ async function fetchYearData(year: number): Promise<YearData | null> {
         return data;
       }
     } catch {
-      // try next mirror
+      // timeout or network error, try next mirror
     }
   }
   dataCache[year] = null;
