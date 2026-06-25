@@ -1,25 +1,26 @@
 import React, {useCallback} from 'react';
-import {FlatList, StyleSheet, Text, View, useColorScheme} from 'react-native';
+import {FlatList, StyleSheet, View, useColorScheme} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import ChatListItem from '../components/ChatListItem';
 import HolidayCountdown from '../../HolidayCountdown';
 import {mockChats} from '../data/mockChats';
 import {colors} from '../theme';
-import type {Chat, RootStackParamList} from '../types';
+import type {Chat} from '../types';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'ChatList'>;
+type Props = {
+  onNavigate: (chatId: string, chatName: string) => void;
+};
 
-const ChatListScreen = ({navigation}: Props) => {
+const ChatListScreen = ({onNavigate}: Props) => {
   const isDark = useColorScheme() === 'dark';
   const c = isDark ? colors.dark : colors.light;
   const insets = useSafeAreaInsets();
 
   const handlePress = useCallback(
     (chat: Chat) => {
-      navigation.navigate('ChatDetail', {chatId: chat.id, chatName: chat.name});
+      onNavigate(chat.id, chat.name);
     },
-    [navigation],
+    [onNavigate],
   );
 
   const renderItem = useCallback(
@@ -55,15 +56,6 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 16,
     paddingVertical: 8,
-  },
-  searchWrap: {
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    marginBottom: 4,
-  },
-  searchText: {
-    fontSize: 15,
   },
 });
 

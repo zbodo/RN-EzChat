@@ -1,17 +1,18 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {FlatList, KeyboardAvoidingView, Platform, StyleSheet, View, useColorScheme} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import MessageBubble from '../components/MessageBubble';
 import MessageInput from '../components/MessageInput';
 import {mockChats} from '../data/mockChats';
 import {colors} from '../theme';
-import type {Message, RootStackParamList} from '../types';
+import type {Message} from '../types';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'ChatDetail'>;
+type Props = {
+  chatId: string;
+  chatName: string;
+};
 
-const ChatDetailScreen = ({route}: Props) => {
-  const {chatId} = route.params;
+const ChatDetailScreen = ({chatId}: Props) => {
   const isDark = useColorScheme() === 'dark';
   const c = isDark ? colors.dark : colors.light;
   const insets = useSafeAreaInsets();

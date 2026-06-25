@@ -15,8 +15,3 @@ export type Chat = {
   online: boolean;
   messages: Message[];
 };
-
-export type RootStackParamList = {
-  ChatList: undefined;
-  ChatDetail: {chatId: string; chatName: string};
-};
