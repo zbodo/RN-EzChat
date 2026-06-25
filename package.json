@@ -1,7 +1,8 @@
 {
-  "name": "AwesomeProject",
+  "name": "ezchat",
   "version": "0.0.1",
   "private": true,
+  "description": "A modern React Native mobile application",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -38,5 +39,7 @@
   },
   "engines": {
     "node": ">= 22.11.0"
-  }
+  },
+  "author": "zbodo",
+  "license": "MIT"
 }
