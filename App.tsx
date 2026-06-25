@@ -13,6 +13,7 @@ import {
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 import Cat from './Cat';
+import HolidayCountdown from './HolidayCountdown';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -108,6 +109,11 @@ function AppContent() {
         },
       ]}
     >
+      <HolidayCountdown
+        textColor={themeColors.text}
+        cardBackground={themeColors.inputBackground}
+      />
+
       <Button title="添加猫🐱" onPress={handleAddCat}></Button>
 
       {cats.map(cat => (
